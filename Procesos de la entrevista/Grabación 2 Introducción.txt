@@ -1,0 +1,28 @@
+**Resumen:**
+1. **Análisis de costos y eficiencia:**  
+   - Identificación de clientes costosos que consumen tiempo significativo (ej. 10 horas) pero generan baja facturación anual.  
+   - Enfoque en reducir tiempos operativos y carga laboral sin aumentar recursos humanos.  
+
+2. **Gestión de indicadores (KPIs):**  
+   - Priorización del "tiempo del proceso" como KPI clave.  
+   - Necesidad de monitorear costos operacionales, identificar picos anuales y puntos críticos en procesos productivos.  
+
+3. **Evaluación de soluciones tecnológicas (ERP):**  
+   - SAP destacado como ERP sólido para finanzas, nómina y recursos humanos, pero con limitaciones:  
+     - Arquitectura acoplada (poco flexible para integraciones).  
+     - Costos elevados por licencias (≈$200 USD/usuario mensual) y expansión (nube o nuevos usuarios).  
+     - Inadecuado para necesidades operativas directas (ej. logística).  
+   - Alternativas: Soluciones modulares (arquitectura desacoplada) y plataformas como TM para gestión logística (rutas, combustible, costos por vehículo).  
+
+4. **Optimización operativa y automatización:**  
+   - Propuesta de centralización en la nube ("extranet"):  
+     - Sedes remotas conectadas a un núcleo operativo.  
+     - Reduce duplicidad administrativa y costos (ej. nómina, facturación).  
+   - Implementación de portal web/sede electrónica para:  
+     - Automatizar atención al cliente (consultas, órdenes).  
+     - Proveer autogestión (seguimiento en tiempo real, pagos).  
+
+5. **Crecimiento y estrategia empresarial:**  
+   - Necesidad de alinear tecnología con estructura administrativa unificada para escalar (ej. apertura rápida de nuevas sedes).  
+   - Recomendación de evaluar soluciones por funcionalidad modular, no por marca.  
+   - Análisis competitivo clave: Identificar competidores (ej. Corona) para definir estándares de mejora.

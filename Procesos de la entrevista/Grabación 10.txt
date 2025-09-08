@@ -1,0 +1,41 @@
+**Certificaciones:**  
+- La organización maneja certificaciones ISO 9001 (calidad), ISO 14001 (gestión ambiental) e ISO 45001 (seguridad y salud en el trabajo).  
+- Adicionalmente, está certificada con el Concejo Colombiano bajo la Guía RUC, exigida por el sector petrolero, con calificación mínima requerida de 85/100. Actualmente posee 90/100.  
+
+**Estructura Organizacional:**  
+- **Nivel superior:** CEO (máxima autoridad), Gerente General (Alejandro Porros), Gerencia Financiera y Administrativa (manejada por la esposa del gerente, independiente del gerente).  
+- **Líder comercial:** Reporta directamente al CEO y al Gerente; encargado de clientes y negocios (ej. Margarita).  
+- **Coordinaciones:**  
+  - Talento Humano (Liliana).  
+  - Operaciones (Jason).  
+  - Mantenimiento (colaborador externo).  
+  - Compras (Eliana).  
+  - HSEQ (responsable: Andrés Corredor).  
+- **Operativos:** Supervisores de zona, conductores, operadores y auxiliares de carga. Personal de mantenimiento: supervisor y auxiliar mecánico.  
+- **Dependencias:** HSEQ supervisa personal en campo cuando clientes lo requieren; reporta al Gerente. Finanzas incluye contadores (Lissette, Karen).  
+
+**Procesos de HSEQ:**  
+- **Contratación:** Exámenes médicos evaluados por HSEQ; se aprueban o rechazan candidatos según aptitud. Inducción institucional (misión, visión, políticas, riesgos), entrega de elementos de protección.  
+- **Capacitación:**  
+  - Virtual (benchmarking): Envío de materiales y evaluaciones vía Google Forms; 3 intentos para aprobar.  
+  - Recurrente: Anual por normativa; mínimo 2 horas semanales (Ley 59). Consolidación compleja por operación distribuida.  
+- **Seguridad vial (PESV):**  
+  - Plataforma Cicipse: Reportes mensuales de indicadores (accidentalidad, mantenimientos, comparendos, kilometraje). Sanciones por incumplimiento.  
+  - Control de fatiga: Máximo 10 horas de conducción continua; monitoreo mediante GPS.  
+- **Gestión diaria:** Inspecciones preoperativas (vehículos), respuesta a anexos de clientes (kits ambientales, botiquines).  
+
+**Reportes Normativos:**  
+- **Anuales:**  
+  - Estándares mínimos de seguridad (ARL y Ministerio de Trabajo): Preguntas binarias (sí/no) vía plataformas. Calificación obligatoria.  
+  - Informe de sostenibilidad: Basado en políticas internas, requerido para certificaciones.  
+- **Mensuales (Cicipse):**  
+  - Datos de flota (inventario, kilometraje), indicadores de siniestros, costos, mantenimientos (preventivos/correctivos).  
+  - Documentos: Política de seguridad vial, actas de comités.  
+- **Plazos:** Cicipse (primeros 5 días de cada mes); informes anuales (diciembre-enero).  
+
+**Gestión Documental:**  
+- **Respaldo:** Copias de seguridad en nube (Google Drive) para continuidad operativa.  
+- **Seguimiento:** Registros digitales (ej. preoperacionales en Google Forms) para auditorías y métricas (horas de conducción, kilometraje).  
+- **Riesgos:** Blindaje ante ciberataques; procedimientos validados en auditorías.  
+
+**Transición ARL:** Migración planeada a Colmena (desde Axa/Colpatria), pendiente de ajustes en plataforma.

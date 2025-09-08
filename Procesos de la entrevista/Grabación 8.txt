@@ -1,0 +1,39 @@
+**Resumen Estructurado:**
+
+**Procesos Operativos:**
+- **Cambio de aceite:**  
+  - Compra de aceite mediante canje por canicas.  
+  - Proveedor externo realiza cambios. Factura presentada al Ministerio de Transporte con certificaciones, incluyendo disposición final del aceite.  
+  - Elementos requeridos: mano de obra externa, materiales.
+
+**Ejemplos de Negocios:**
+1. **Transporte en cuatrimotos (cancelado):**  
+   - Proceso propuesto:  
+     - Adquisición mediante orden de compra tras cotización y autorización gerencial.  
+     - Pago al proveedor con factura electrónica (cierre del proceso).  
+   - Requería conductores verificados y vehículos.
+
+2. **Transporte de arroz con carros/mulas:**  
+   - Flujo para servicio tercerizado:  
+     - Comercial solicita vehículos (ej: 4 carros/mulas) y conductores.  
+     - Compras genera orden de servicio con detalle: cliente (nombre/NIT), ruta, valor (ej: $400.000.000), condiciones de pago (contado/15 días).  
+     - Pago gestionado por contabilidad tras consignación del cliente.  
+   - **Si vehículos son alquilados:**  
+     - Negociación de anticipo con proveedor.  
+   - **Si vehículos son propios:**  
+     - Conductores remunerados vía nómina.  
+
+**Flujos Administrativos:**  
+- **Compras:**  
+  - Recibe requisiciones, cotiza, envía órdenes de compra/servicio a proveedores.  
+  - Cierra procesos con factura electrónica.  
+- **Contabilidad:**  
+  - Recibe facturas y gestiona pagos.  
+  - Notifica a comercial sobre consignaciones.  
+- **Coordinación:**  
+  - Verificación de proveedores por rubro (ej: filtros, correas) mediante base de datos local.  
+
+**Observaciones:**  
+- Procesos requieren autorización gerencial previa.  
+- Documentación esencial para auditorías (facturas, certificaciones).  
+- Clarificación de pagos a proveedores y conductores clave para ejecución.

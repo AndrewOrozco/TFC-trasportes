@@ -1,0 +1,32 @@
+**Resumen Estructurado**
+
+1. **Objetivo inicial**  
+   Documentar la historia y procesos organizacionales para crear un modelo sistemático optimizado.  
+
+2. **Roles clave**  
+   - *Comercial:* Gestiona ventas.  
+   - *Logística:* Administra vehículos y soportes.  
+   - *Gestión de personal:* Asegura recursos humanos para operaciones.  
+
+3. **Flujo de compras (ejemplo: motos)**  
+   - Recepción de solicitud (ej: 4 motos).  
+   - Búsqueda de proveedores (locales o en Bogotá).  
+   - Cotización: Análisis de precios/características.  
+   - Presentación a gerencia para aprobación.  
+   - Emisión de orden de compra tras visto bueno.  
+   - Coordinación con área contable para pago.  
+
+4. **Mantenimiento (ejemplo: filtros de vehículos)**  
+   - Solicitud vía correo (ej: cambio de 20 filtros de aire/gasolina).  
+   - Obtención de referencias: Contacto con conductores para fotos/datos.  
+   - Cotización y selección de proveedor.  
+   - *Nota:* No hay seguimiento activo de consumo de combustible o desgaste; se actúa ante solicitudes.  
+
+5. **Aprobaciones y recursos**  
+   - Gerencia decide compras y valida presupuestos.  
+   - Contabilidad gestiona pagos.  
+   - Flota: 17 vehículos en total.  
+
+6. **Logística de envío**  
+   - Envío no urgente: Por vehículos de la empresa.  
+   - Envío urgente: Uso de transportadoras con seguimiento de guía.

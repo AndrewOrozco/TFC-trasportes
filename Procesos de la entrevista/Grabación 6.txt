@@ -1,0 +1,25 @@
+**Resumen Estructurado en Español**  
+
+**1. Registro y Seguimiento de Personal**  
+- Necesidad de un historial laboral completo: ingreso, condiciones laborales y motivo de salida.  
+- Trazabilidad para evaluar cumplimiento de conductores y verificar si alguien quedó vetado.  
+- Capacidad de buscar antecedentes de ex empleados al reemplazar personal.  
+
+**2. Gestión de Documentación Legal**  
+- El correo corporativo no certifica la recepción por el destinatario.  
+- El correo certificado tiene validez legal en Colombia como documento jurídico.  
+
+**3. Limitaciones de Herramienta "People Find"**  
+- Solo gestiona personal activo actualmente en la empresa.  
+- No permite buscar candidatos externos.  
+- Genera reportes básicos: renuncias mensuales y sus motivos.  
+
+**4. Procesos de Gestión y Alertas**  
+- Sistematización de información en Excel/WhatsApp para alertas de vencimientos (ej.: 6 personas por vencer).  
+- Canalización digital de pruebas y pagas mediante enlaces.  
+- Comunicación ágil con empleados vía links para subir documentos.  
+
+**5. Estrategias de Recursos Humanos**  
+- Priorizar la "calidad humana" además del desempeño laboral.  
+- Implementación de bonos simbólicos (ej.: $10,000 para helados) condicionados a acciones como enviar fotos.  
+- Objetivo: Generar fidelidad y conexión emocional con los empleados.

@@ -1,0 +1,25 @@
+**Permisos de Acceso:**
+- Requieren autorización para ingresar al hardware y vincularlo con software, permitiendo seguimiento mediante GPS.
+- Disponen de credenciales (usuario y contraseña) para acceder a datos del GPS.
+
+**Prioridades del Negocio:**
+- Máxima prioridad: crecimiento exponencial del negocio.
+- Segunda prioridad: marketing.
+- Tercera prioridad: gestión administrativa-financiera, actualmente operativa con cronogramas establecidos.
+
+**Contratos y Estabilidad:**
+- Buscan contratos a largo plazo (1-3 años) para garantizar estabilidad.
+- Ejemplo clave: servicio de transporte (rocera) donde el cumplimiento de normas (EPP, estándares vehiculares, informes, CCP) asegura confianza del cliente y evita riesgos (pérdidas millonarias).
+
+**Servicios Adicionales (Plus):**
+- Necesitan ofrecer servicios diferenciadores, especialmente para licitaciones públicas.
+- Requisitos críticos: trazabilidad completa, certificaciones ambientales e informes de disposición final.
+- Competidores fracasan por incumplimiento; proponen capitalizar esta ventaja para ganar contratos.
+
+**Economía Circular:**
+- Destacan la reutilización de residuos en otros procesos (economía circular) como valor demandado por organizaciones.
+
+**Procesos Administrativos:**
+- Órdenes de recolección generadas en cualquier ubicación (ej. Chía), con vehículos propios o de terceros.
+- Requieren sistema unificado en la nube para gestión global integrada.
+- Propuesta: desarrollar solución para optimizar procesos administrativo-financieros y manejo empresarial.

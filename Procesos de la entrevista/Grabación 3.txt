@@ -1,0 +1,41 @@
+### Resumen Estructurado
+
+#### **Procesos Operativos**
+- **Transporte de residuos**:  
+  - Se divide en dos categorías principales:  
+    1. Material líquido: Genera residuos peligrosos y no peligrosos.  
+    2. Material sólido y maquinaria amarilla: También genera residuos peligrosos y no peligrosos.  
+  - Proveedores: Uso combinado de maquinaria propia y de aliados regionales, con contratos temporales o permanentes.  
+
+#### **Captación de Clientes**
+- **Canales principales**:  
+  - Llamadas en frío (método actual).  
+  - Página web, Google Ads y referidos (estrategias propuestas).  
+- **Calificación de leads**:  
+  - Requisitos mínimos: Empresa registrada en Cámara de Comercio, tipo de industria (ej. petróleos, hidrocarburos), residuos a transportar (líquidos, sólidos, equipos), ubicaciones operativas y cobertura geográfica.  
+  - Dificultad frecuente: Clientes con necesidades no definidas requieren visitas técnicas para identificar requerimientos específicos.  
+
+#### **Flujo de Pedidos**
+- **Etapas clave**:  
+  1. **Captación**: Cliente solicita servicio (ej.: transporte de 10 toneladas de residuos a relleno sanitario).  
+  2. **Cotización**: Validación de requerimientos, precios y normativa.  
+  3. **Confirmación**: Cliente emite orden de servicio; área comercial transfiere datos a operaciones vía correo, llamada y WhatsApp.  
+  4. **Ejecución**: Operaciones asigna vehículos propios o aliados según disponibilidad.  
+- **Razones de rechazo**: Precios altos o falta de cobertura/recursos.  
+
+#### **Retos Identificados**
+- **Procesos manuales**: Errores humanos en operaciones que afectan la satisfacción del cliente.  
+- **Captación ineficiente**: Solo 10-20% de conversión en llamadas en frío versus leads digitales (con necesidad clara).  
+- **Comunicación comercial**: Demoras en respuestas a clientes por falta de estructura.  
+
+#### **Propuestas de Optimización**
+- **Automatización**:  
+  - Implementar sistema para gestión de flujos:  
+    - Seguimiento de cotizaciones y órdenes.  
+    - Trazabilidad en línea para clientes (ej.: estado de servicios, historial mensual).  
+  - KPIs clave: Efectividad en cotizaciones, cumplimiento presupuestal y volumen de cierres.  
+- **Expansión comercial**:  
+  - Aumentar equipo con 3 asesores bajo supervisión, replicando metodología exitosa de respuesta ágil.  
+  - Estrategias de fidelización: Seguimiento postventa, retroalimentación y referidos.  
+- **Estrategias de marketing**:  
+  - Combinar acciones en mundo real (bench marketing) y digital para atraer leads calificados.
