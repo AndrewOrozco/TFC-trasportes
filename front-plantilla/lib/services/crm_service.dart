@@ -8,7 +8,7 @@ class CrmService {
 
   Dio _dio() {
     final rawBase = dotenv.env['API_BASE_URL'] ?? '';
-    return Dio(BaseOptions(
+    final dio = Dio(BaseOptions(
       baseUrl: resolveBaseUrlForPlatform(rawBase),
       headers: {
         if (TokenStorage.token != null) 'Authorization': 'Bearer ${TokenStorage.token}',
@@ -16,6 +16,8 @@ class CrmService {
       connectTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 15),
     ));
+    dio.interceptors.add(LogInterceptor(request: true, requestBody: true, responseBody: false));
+    return dio;
   }
 
   // Clientes
@@ -141,8 +143,59 @@ class CrmService {
     await _dio().post('crm/cotizaciones/$id/aceptar');
   }
 
-  Future<void> convertQuoteToOrder(int id) async {
-    await _dio().post('crm/cotizaciones/$id/convertir');
+  Future<Map<String, dynamic>> convertQuoteToOrder(int id, {String? rutaOrigen, String? rutaDestino}) async {
+    final res = await _dio().post('crm/cotizaciones/$id/convertir', data: {
+      'quotation_id': id,
+      if (rutaOrigen != null) 'ruta_origen': rutaOrigen,
+      if (rutaDestino != null) 'ruta_destino': rutaDestino,
+    });
+    return (res.data as Map).cast<String, dynamic>();
+  }
+
+  // OPS: vehicles/operators/assignments/events
+  Future<List<Map<String, dynamic>>> listVehicles({int page = 1, int perPage = 20}) async {
+    final res = await _dio().get('ops/vehicles', queryParameters: { 'page': page, 'per_page': perPage });
+    final List data = (res.data as List?) ?? [];
+    return data.cast<Map>().map((e) => (e as Map).cast<String, dynamic>()).toList();
+  }
+
+  Future<List<Map<String, dynamic>>> listOperators({String? role, int page = 1, int perPage = 20}) async {
+    final res = await _dio().get('ops/operators', queryParameters: {
+      if (role != null && role.isNotEmpty) 'role': role,
+      'page': page, 'per_page': perPage,
+    });
+    final List data = (res.data as List?) ?? [];
+    return data.cast<Map>().map((e) => (e as Map).cast<String, dynamic>()).toList();
+  }
+
+  Future<Map<String, dynamic>> assignOrder({required int orderId, required int vehicleId, required int operatorId, int? allyId, String? turno, int? horasConduccion}) async {
+    final res = await _dio().post('ops/orders/$orderId/assignments', data: {
+      'vehicle_id': vehicleId,
+      'operator_id': operatorId,
+      if (allyId != null) 'ally_id': allyId,
+      if (turno != null) 'turno': turno,
+      if (horasConduccion != null) 'horas_conduccion': horasConduccion,
+    });
+    return (res.data as Map).cast<String, dynamic>();
+  }
+
+  Future<void> addOrderEvent({required int orderId, required String tipo, String? message, double? lat, double? lng}) async {
+    await _dio().post('ops/orders/$orderId/events', data: {
+      'tipo': tipo,
+      if (message != null) 'message': message,
+      if (lat != null) 'lat': lat,
+      if (lng != null) 'lng': lng,
+    });
+  }
+
+  Future<List<Map<String, dynamic>>> listOrderEvents(int orderId) async {
+    final res = await _dio().get('ops/orders/$orderId/events');
+    final List data = (res.data as List?) ?? [];
+    return data.cast<Map>().map((e) => (e as Map).cast<String, dynamic>()).toList();
+  }
+
+  Future<void> updateOrderStatus({required int orderId, required String estado}) async {
+    await _dio().patch('ops/orders/$orderId/estado', queryParameters: { 'estado': estado });
   }
 }
 

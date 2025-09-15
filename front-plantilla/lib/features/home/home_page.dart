@@ -7,6 +7,7 @@ import 'package:frontend/core/token_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:frontend/core/api_base.dart';
+import 'package:frontend/services/crm_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,6 +24,7 @@ class _HomePageState extends State<HomePage> {
     return role == 'admin' || role.contains('super');
   }
   bool get _isSuperAdmin => (TokenStorage.currentRole ?? '').toLowerCase().contains('super');
+  bool get _isComercial => (TokenStorage.currentRole ?? '').toLowerCase() == 'comercial';
   bool _initializing = false;
   List<Map<String, dynamic>> _companies = const [];
   int? _selectedCompanyId;
@@ -34,6 +36,12 @@ class _HomePageState extends State<HomePage> {
   // Assigned orders for conductor
   List<Map<String, dynamic>> _assignedOrders = const [];
   bool _ordersLoading = false;
+  // Comercial data
+  final CrmService _crm = CrmService();
+  List<Map<String, dynamic>> _quotes = const [];
+  List<Map<String, dynamic>> _orders = const [];
+  List<Map<String, dynamic>> _clients = const [];
+  bool _commercialLoading = false;
 
   @override
   void initState() {
@@ -45,6 +53,7 @@ class _HomePageState extends State<HomePage> {
     // Attempt initial dashboard load (will work if token/base are ready)
     _loadDashboard();
     if (_isConductor) _loadAssignedOrders();
+    if (_isComercial) _loadCommercialData();
   }
 
   Future<void> _maybeFetchRole() async {
@@ -79,6 +88,9 @@ class _HomePageState extends State<HomePage> {
           await _loadDashboard(companyId: _selectedCompanyId);
           if (((role ?? '').toLowerCase()).contains('conductor')) {
             await _loadAssignedOrders();
+          }
+          if (((role ?? '').toLowerCase()) == 'comercial') {
+            await _loadCommercialData();
           }
         }
       } catch (_) {
@@ -187,6 +199,42 @@ class _HomePageState extends State<HomePage> {
     } catch (_) {
     } finally {
       if (mounted) setState(() => _ordersLoading = false);
+    }
+  }
+
+  Future<void> _loadCommercialData() async {
+    setState(() { _commercialLoading = true; });
+    try {
+      // Quotes
+      final quotes = await _crm.listQuotes(page: 1, perPage: 10);
+      // Clients
+      final clients = await _crm.listClients(page: 1, perPage: 10);
+      // Orders (en curso)
+      final rawBase = dotenv.env['API_BASE_URL'];
+      final token = TokenStorage.token;
+      List<Map<String, dynamic>> orders = const [];
+      if (rawBase != null && rawBase.isNotEmpty && token != null) {
+        final dio = Dio(BaseOptions(
+          baseUrl: resolveBaseUrlForPlatform(rawBase),
+          headers: {'Authorization': 'Bearer $token'},
+          connectTimeout: const Duration(seconds: 15),
+          receiveTimeout: const Duration(seconds: 15),
+        ));
+        final res = await dio.get('orders', queryParameters: {'status': 'en_curso', 'page': 1, 'per_page': 10});
+        final dynamic body = res.data;
+        List list;
+        if (body is List) list = body; else if (body is Map) { final m = body.cast<String, dynamic>(); list = (m['items'] ?? m['data'] ?? m['results'] ?? []) as List; } else list = const [];
+        orders = list.cast<Map>().map((e) => (e as Map).cast<String, dynamic>()).toList();
+      }
+      if (!mounted) return;
+      setState(() {
+        _quotes = quotes;
+        _clients = clients;
+        _orders = orders;
+      });
+    } catch (_) {
+    } finally {
+      if (mounted) setState(() { _commercialLoading = false; });
     }
   }
 
@@ -473,6 +521,71 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ],
+                  )
+                : _isComercial
+                ? RefreshIndicator(
+                    onRefresh: _loadCommercialData,
+                    child: ListView(
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                      children: [
+                        _MetricsCard(
+                          title: 'Mi desempeño',
+                          metrics: [
+                            _Metric(value: (_quotes.length).toString(), label: 'Cotizaciones'),
+                            _Metric(value: (_orders.length).toString(), label: 'Órdenes en curso'),
+                            _Metric(value: _metricActiveOrders, label: 'Activas (global)'),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Row(children: [
+                          Expanded(child: ElevatedButton.icon(onPressed: () => context.go('/crm/quotes'), icon: const Icon(Icons.request_quote), label: const Text('Nueva cotización'))),
+                          const SizedBox(width: 12),
+                          Expanded(child: OutlinedButton.icon(onPressed: () => context.go('/crm/clients'), icon: const Icon(Icons.group_add), label: const Text('Nuevo cliente'))),
+                        ]),
+                        const SizedBox(height: 16),
+                        _PanelCard(title: 'Últimas cotizaciones', child: _commercialLoading && _quotes.isEmpty
+                            ? const SizedBox(height: 80, child: Center(child: CircularProgressIndicator()))
+                            : ListView.separated(
+                                shrinkWrap: true, physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  final it = _quotes[index];
+                                  final id = (it['id'] ?? '').toString();
+                                  final estado = (it['estado'] ?? '').toString();
+                                  return ListTile(leading: const Icon(Icons.request_quote), title: Text('COT $id', style: const TextStyle(color: AppColors.azul, fontWeight: FontWeight.w700)), subtitle: Text(estado));
+                                },
+                                separatorBuilder: (_, __) => const Divider(height: 1),
+                                itemCount: _quotes.length,
+                              )),
+                        const SizedBox(height: 16),
+                        _PanelCard(title: 'Órdenes en curso', child: _commercialLoading && _orders.isEmpty
+                            ? const SizedBox(height: 80, child: Center(child: CircularProgressIndicator()))
+                            : ListView.separated(
+                                shrinkWrap: true, physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  final it = _orders[index];
+                                  final id = (it['id'] ?? '').toString();
+                                  final estado = (it['estado'] ?? it['status'] ?? '').toString();
+                                  return ListTile(leading: const Icon(Icons.receipt_long), title: Text('Orden $id', style: const TextStyle(color: AppColors.azul, fontWeight: FontWeight.w700)), subtitle: Text('Estado: ' + estado), onTap: () => context.push('/orders/$id'));
+                                },
+                                separatorBuilder: (_, __) => const Divider(height: 1),
+                                itemCount: _orders.length,
+                              )),
+                        const SizedBox(height: 16),
+                        _PanelCard(title: 'Clientes recientes', child: _commercialLoading && _clients.isEmpty
+                            ? const SizedBox(height: 80, child: Center(child: CircularProgressIndicator()))
+                            : ListView.separated(
+                                shrinkWrap: true, physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  final it = _clients[index];
+                                  final nombre = (it['razon_social'] ?? it['name'] ?? 'Cliente').toString();
+                                  final nit = (it['nit'] ?? '').toString();
+                                  return ListTile(leading: const Icon(Icons.business), title: Text(nombre, style: const TextStyle(color: AppColors.azul, fontWeight: FontWeight.w700)), subtitle: Text('NIT: ' + nit));
+                                },
+                                separatorBuilder: (_, __) => const Divider(height: 1),
+                                itemCount: _clients.length,
+                              )),
+                      ],
+                    ),
                   )
                 : ListView(
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),

@@ -42,8 +42,12 @@ def create_quotation(payload: s.QuotationCreate, db: Session = Depends(deps.get_
 
 
 @router.get("/cotizaciones", response_model=List[s.QuotationRead])
-def list_quotations(db: Session = Depends(deps.get_db), _: object = Depends(deps.get_current_user)):
-    return db.query(mo.Quotation).order_by(mo.Quotation.id.desc()).all()
+def list_quotations(db: Session = Depends(deps.get_db), current=Depends(deps.get_current_user)):
+    q = db.query(mo.Quotation)
+    # scope por empresa del usuario (usando la empresa del cliente asociado)
+    if current.role != "super_admin":
+        q = q.join(Client, mo.Quotation.client_id == Client.id).filter(Client.company_id == current.company_id)
+    return q.order_by(mo.Quotation.id.desc()).all()
 
 
 @router.patch("/cotizaciones/{qid}", response_model=s.QuotationRead)
@@ -77,11 +81,26 @@ def calculate_price(payload: s.PricingRequest, db: Session = Depends(deps.get_db
 
 
 @router.post("/cotizaciones/{qid}/convertir", response_model=s.ServiceOrderRead)
-def convert_to_order(qid: int, payload: s.ServiceOrderCreate, db: Session = Depends(deps.get_db), _: object = Depends(deps.get_current_user)):
+def convert_to_order(qid: int, payload: s.ServiceOrderCreate, db: Session = Depends(deps.get_db), current=Depends(deps.get_current_user)):
     q = db.query(mo.Quotation).get(qid)
     if not q or q.estado not in ("enviada", "aceptada", "borrador"):
         raise HTTPException(status_code=400, detail="Cotización inválida para conversión")
-    order = mo.ServiceOrder(quotation_id=q.id, client_id=q.client_id, ruta_origen=payload.ruta_origen, ruta_destino=payload.ruta_destino)
+    # Idempotencia: si ya existe una orden para esta cotización, devolverla
+    existing = db.query(mo.ServiceOrder).filter(mo.ServiceOrder.quotation_id == q.id).one_or_none()
+    if existing:
+        return existing
+    # company scope: asignar company_id a la orden
+    company_id = current.company_id if current.role != "super_admin" else None
+    if company_id is None:
+        client = db.query(Client).get(q.client_id)
+        company_id = client.company_id if client else None
+    order = mo.ServiceOrder(
+        quotation_id=q.id,
+        client_id=q.client_id,
+        ruta_origen=payload.ruta_origen,
+        ruta_destino=payload.ruta_destino,
+        company_id=company_id,
+    )
     db.add(order)
     db.commit()
     db.refresh(order)

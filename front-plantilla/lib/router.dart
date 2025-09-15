@@ -10,6 +10,7 @@ import 'features/users/create_user_page.dart';
 import 'features/catalogs/vehicle_types_page.dart';
 import 'features/companies/companies_page.dart';
 import 'features/orders/orders_page.dart';
+import 'features/orders/order_detail_page.dart';
 import 'features/crm/clients_page.dart';
 import 'features/crm/leads_page.dart';
 import 'features/crm/opportunities_page.dart';
@@ -43,6 +44,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/companies', builder: (context, state) => const CompaniesPage()),
       // órdenes
       GoRoute(path: '/orders', builder: (context, state) => const OrdersPage()),
+      GoRoute(path: '/orders/:id', builder: (context, state) {
+        final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+        return OrderDetailPage(orderId: id);
+      }),
       // CRM - clientes
       GoRoute(path: '/crm/clients', builder: (context, state) => const ClientsPage()),
       // CRM - leads

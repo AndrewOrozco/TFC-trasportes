@@ -92,6 +92,14 @@ def assign_order(order_id: int, payload: s.AssignmentCreate, db: Session = Depen
     order = db.query(ServiceOrder).get(order_id)
     if not order:
         raise HTTPException(status_code=404, detail="Orden no encontrada")
+    # si la orden no tiene company_id, intentar inferirla del vehículo u operador asignado
+    if order.company_id is None:
+        try:
+            veh = db.query(mo.Vehicle).get(payload.vehicle_id) if payload.vehicle_id else None
+            if veh and veh.company_id is not None:
+                order.company_id = veh.company_id
+        except Exception:
+            pass
     asg = mo.Assignment(order_id=order_id, vehicle_id=payload.vehicle_id, operator_id=payload.operator_id, ally_id=payload.ally_id, turno=payload.turno, horas_conduccion=payload.horas_conduccion)
     db.add(asg)
     db.commit()

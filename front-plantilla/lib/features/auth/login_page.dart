@@ -43,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
           receiveTimeout: const Duration(seconds: 15),
         ),
       );
+      dio.interceptors.add(LogInterceptor(request: true, requestBody: true, responseBody: false));
 
       final res = await dio.post(
         'auth/login',
@@ -91,7 +92,9 @@ class _LoginPageState extends State<LoginPage> {
       if (status == 401) {
         msg = detail.isNotEmpty ? detail : 'Credenciales inválidas';
       } else {
+        final uri = e.requestOptions.uri.toString();
         msg = detail.isNotEmpty ? detail : 'Error de login (código $status)';
+        msg = '[$status] ' + uri + (detail.isNotEmpty ? ' · ' + detail : '');
       }
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
     } catch (e) {

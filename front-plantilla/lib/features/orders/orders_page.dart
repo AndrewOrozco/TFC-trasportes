@@ -42,14 +42,45 @@ class _OrdersPageState extends State<OrdersPage> {
         connectTimeout: const Duration(seconds: 15),
         receiveTimeout: const Duration(seconds: 15),
       ));
-      final res = await dio.get('orders', queryParameters: {
-        'status': _status,
+      final Map<String, dynamic> baseQuery = {
         'page': 1,
         'per_page': 20,
-        // company_id lo decide el backend según rol; super_admin puede pasar por query si quiere
-      });
-      final List data = (res.data as List?) ?? [];
-      _items = data.cast<Map>().map((e) => (e as Map).cast<String, dynamic>()).toList();
+      };
+      if (_status.isNotEmpty) {
+        baseQuery['status'] = _status; // algunos backends usan 'status'
+        baseQuery['estado'] = _status; // otros usan 'estado'
+      }
+      Response res = await dio.get('orders', queryParameters: baseQuery);
+      final dynamic body = res.data;
+      List list;
+      if (body is List) {
+        list = body;
+      } else if (body is Map) {
+        final Map<String, dynamic> m = body.cast<String, dynamic>();
+        list = (m['items'] ?? m['orders'] ?? m['results'] ?? m['data'] ?? m['rows'] ?? m['records'] ?? []) as List;
+      } else {
+        list = const [];
+      }
+      _items = list.cast<Map>().map((e) => (e as Map).cast<String, dynamic>()).toList();
+
+      // Si se pidió con filtro y vino vacío, reintentar sin filtro por si la API usa otro nombre
+      if (_items.isEmpty && _status.isNotEmpty) {
+        res = await dio.get('orders', queryParameters: {
+          'page': 1,
+          'per_page': 20,
+        });
+        final dynamic b2 = res.data;
+        List list2;
+        if (b2 is List) {
+          list2 = b2;
+        } else if (b2 is Map) {
+          final Map<String, dynamic> m = b2.cast<String, dynamic>();
+          list2 = (m['items'] ?? m['orders'] ?? m['results'] ?? m['data'] ?? m['rows'] ?? m['records'] ?? []) as List;
+        } else {
+          list2 = const [];
+        }
+        _items = list2.cast<Map>().map((e) => (e as Map).cast<String, dynamic>()).toList();
+      }
     } on DioException catch (e) {
       _error = (e.response?.data is Map && (e.response?.data['detail'] != null))
           ? e.response?.data['detail'].toString()
@@ -103,12 +134,7 @@ class _OrdersPageState extends State<OrdersPage> {
                   onChanged: (v) { setState(() => _status = v ?? _status); _fetch(); },
                 ),
                 const Spacer(),
-                if (_isAdminOrComercial)
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(Icons.add),
-                    label: const Text('Crear'),
-                  ),
+                // Se elimina el botón Crear: las órdenes nacen desde cotizaciones
               ],
             ),
           ),
@@ -117,30 +143,33 @@ class _OrdersPageState extends State<OrdersPage> {
                 ? const Center(child: CircularProgressIndicator())
                 : _error != null
                     ? Center(child: Padding(padding: const EdgeInsets.all(16), child: Text(_error!, textAlign: TextAlign.center)))
-                    : RefreshIndicator(
-                        onRefresh: _fetch,
-                        child: ListView.separated(
-                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 24),
-                          itemBuilder: (context, index) {
-                            final it = _items[index];
-                            final String id = (it['id'] ?? it['code'] ?? '').toString();
-                            final String estado = (it['estado'] ?? it['status'] ?? '').toString();
-                            final String desc = (it['descripcion'] ?? it['description'] ?? '').toString();
-                            return Card(
-                              elevation: 0,
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: AppColors.azul.withOpacity(0.1), width: 1)),
-                              child: ListTile(
-                                leading: const Icon(Icons.receipt_long, color: AppColors.azul),
-                                title: Text('Orden $id', style: const TextStyle(color: AppColors.azul, fontWeight: FontWeight.w800)),
-                                subtitle: Text('Estado: $estado  ·  $desc', style: TextStyle(color: AppColors.azul.withOpacity(0.7))),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (_, __) => const SizedBox(height: 8),
-                          itemCount: _items.length,
-                        ),
-                      ),
+                    : _items.isEmpty
+                        ? const Center(child: Text('No hay órdenes para este estado'))
+                        : RefreshIndicator(
+                            onRefresh: _fetch,
+                            child: ListView.separated(
+                              padding: const EdgeInsets.fromLTRB(8, 8, 8, 24),
+                              itemBuilder: (context, index) {
+                                final it = _items[index];
+                                final String id = (it['id'] ?? it['code'] ?? '').toString();
+                                final String estado = (it['estado'] ?? it['status'] ?? '').toString();
+                                final String desc = (it['descripcion'] ?? it['description'] ?? '').toString();
+                                return Card(
+                                  elevation: 0,
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: AppColors.azul.withOpacity(0.1), width: 1)),
+                                  child: ListTile(
+                                    leading: const Icon(Icons.receipt_long, color: AppColors.azul),
+                                    title: Text('Orden $id', style: const TextStyle(color: AppColors.azul, fontWeight: FontWeight.w800)),
+                                    subtitle: Text('Estado: $estado  ·  $desc', style: TextStyle(color: AppColors.azul.withOpacity(0.7))),
+                                    onTap: () => context.push('/orders/$id'),
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (_, __) => const SizedBox(height: 8),
+                              itemCount: _items.length,
+                            ),
+                          ),
           ),
         ],
       ),
